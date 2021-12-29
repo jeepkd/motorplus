@@ -1,7 +1,7 @@
 # File created using '.gitignore Generator' for Visual Studio Code: https://bit.ly/vscode-gig
 
-# Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,linux,node,python,react
-# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,linux,node,python,react
+# Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,react,python,node,linux,nextjs
+# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,react,python,node,linux,nextjs
 
 ### Linux ###
 *~
@@ -17,6 +17,10 @@
 
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
+
+### NextJS ###
+# Next build dir
+.next/
 
 ### Node ###
 # Logs
@@ -137,6 +141,16 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+### Node Patch ###
+# Serverless Webpack directories
+.webpack/
+
+# Optional stylelint cache
+.stylelintcache
+
+# SvelteKit build / generate output
+.svelte-kit
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
@@ -304,7 +318,10 @@ sketch
 .history
 .ionide
 
-# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,linux,node,python,react
+# Support for Project snippet scope
+!.vscode/*.code-snippets
+
+# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,react,python,node,linux,nextjs
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
 
