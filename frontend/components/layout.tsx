@@ -1,9 +1,10 @@
-import { GetServerSideProps, NextPage } from "next";
-import {css, jsx} from "@emotion/react"
+import { GetServerSideProps, NextPage } from "next"
+import { css, jsx } from "@emotion/react"
 
-import Head from "next/head";
-import MenuAppBar from "./menu-appbar";
-import Toolbar from "@mui/material/Toolbar";
+import { Container } from "@mui/material"
+import Head from "next/head"
+import MenuAppBar from "./menu-appbar"
+import Toolbar from "@mui/material/Toolbar"
 import styled from "@emotion/styled"
 
 const Layout: NextPage = ({ children }) => {
@@ -18,16 +19,15 @@ const Layout: NextPage = ({ children }) => {
       <MenuAppBar />
       <main>{children}</main>
     </>
-  );
-};
+  )
+}
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     props: {
       data: null,
     },
-  };
-};
+  }
+}
 
-export default Layout;
-
+export default Layout

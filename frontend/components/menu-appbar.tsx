@@ -1,52 +1,40 @@
-import * as React from "react";
+import * as React from "react"
 
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
-import { GetServerSideProps } from "next";
-import IconButton from "@mui/material/IconButton";
-import Link from "next/link";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Switch from "@mui/material/Switch";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+import AccountCircle from "@mui/icons-material/AccountCircle"
+import AppBar from "@mui/material/AppBar"
+import Box from "@mui/material/Box"
+import Button from "@mui/material/Button"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import FormGroup from "@mui/material/FormGroup"
+import { GetServerSideProps } from "next"
+import IconButton from "@mui/material/IconButton"
+import Link from "next/link"
+import Menu from "@mui/material/Menu"
+import MenuIcon from "@mui/icons-material/Menu"
+import MenuItem from "@mui/material/MenuItem"
+import Switch from "@mui/material/Switch"
+import Toolbar from "@mui/material/Toolbar"
+import Typography from "@mui/material/Typography"
 
 export function MenuAppBar() {
-  const [auth, setAuth] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [auth, setAuth] = React.useState(false)
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAuth(event.target.checked);
-  };
+    setAuth(event.target.checked)
+  }
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <FormGroup>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={auth}
-              onChange={handleChange}
-              aria-label="login switch"
-            />
-          }
-          label={auth ? "Logout" : "Login"}
-        />
-      </FormGroup>
-      <AppBar position="static">
+      <AppBar position="static" variant="elevation">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             มอเตอร์พลัส
@@ -85,14 +73,26 @@ export function MenuAppBar() {
             </div>
           )}
           {!auth && (
-            <Link href='/auth/login' passHref>
-              <Button variant="Text">เข้าสู่ระบบ</Button>
+            <Link href="/auth/login" passHref>
+              <Button variant="contained" color="info">เข้าสู่ระบบ</Button>
             </Link>
           )}
         </Toolbar>
       </AppBar>
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Switch
+              checked={auth}
+              onChange={handleChange}
+              aria-label="login switch"
+            />
+          }
+          label={auth ? "Logout" : "Login"}
+        />
+      </FormGroup>
     </Box>
-  );
+  )
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -100,7 +100,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     props: {
       data: null,
     },
-  };
-};
+  }
+}
 
-export default MenuAppBar;
+export default MenuAppBar
