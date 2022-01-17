@@ -1,11 +1,11 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { User, Prisma } from '@prisma/client'
@@ -15,7 +15,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  async create(@Body() userParams: Prisma.UserCreateInput) {
+  async create(@Body() userParams: Prisma.UserCreateInput): Promise<User> {
     return this.usersService.create(userParams)
   }
 
@@ -33,12 +33,12 @@ export class UsersController {
   async update(
     @Param('id') id: string,
     @Body() userParams: Prisma.UserUpdateInput,
-  ) {
+  ): Promise<User> {
     return this.usersService.update(+id, userParams)
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string): Promise<User> {
     return this.usersService.remove(+id)
   }
 }
