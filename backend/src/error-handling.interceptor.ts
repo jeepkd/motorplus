@@ -7,8 +7,6 @@ import {
 } from '@nestjs/common'
 import { Observable, catchError } from 'rxjs'
 
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
-
 @Injectable()
 export class ErrorHandlingInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {

@@ -6,11 +6,9 @@ import {
   Patch,
   Param,
   Delete,
-  UseFilters,
 } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { User, Prisma } from '@prisma/client'
-import { PrismaFilter } from 'src/prisma.filter'
 
 @Controller('users')
 export class UsersController {
