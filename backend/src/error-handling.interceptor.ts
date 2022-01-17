@@ -2,10 +2,13 @@ import {
   CallHandler,
   ExecutionContext,
   Injectable,
+  InternalServerErrorException,
   NestInterceptor,
   NotFoundException,
 } from '@nestjs/common'
 import { Observable, catchError } from 'rxjs'
+
+// TODO #1 Remove error patching to improve security
 
 @Injectable()
 export class ErrorHandlingInterceptor implements NestInterceptor {
@@ -15,7 +18,7 @@ export class ErrorHandlingInterceptor implements NestInterceptor {
         if (error.code == 'P2025') {
           throw new NotFoundException(error.message)
         } else {
-          throw error
+          throw new InternalServerErrorException(error.message)
         }
       }),
     )
