@@ -1,7 +1,6 @@
-import { Controller, Get, UseFilters } from '@nestjs/common'
+import { Controller, Get } from '@nestjs/common'
 
 import { AppService } from './app.service'
-import { PrismaFilter } from './prisma.filter'
 
 @Controller()
 export class AppController {
