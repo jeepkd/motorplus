@@ -1,6 +1,11 @@
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common'
 import { Prisma, User } from '@prisma/client'
 
-import { Injectable } from '@nestjs/common'
 import { PrismaService } from 'src/prisma/prisma.service'
 
 @Injectable()
@@ -17,10 +22,9 @@ export class UsersService {
     return users
   }
 
-  async findOne(id: number): Promise<User | null> {
-    const user = await this.prisma.user.findUnique({
-      where: { id },
-    })
+  async findOne(id: number): Promise<User> {
+    const user = await this.prisma.user.findUnique({ where: { id } })
+    if (!user) throw new NotFoundException()
     return user
   }
 
@@ -33,6 +37,6 @@ export class UsersService {
   }
 
   async remove(id: number) {
-    return await this.prisma.user.delete({where: {id}})
+    return await this.prisma.user.delete({ where: { id } })
   }
 }
