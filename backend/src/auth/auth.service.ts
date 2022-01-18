@@ -13,4 +13,9 @@ export class AuthService {
     // }
     return null
   }
+
+  async hashPassword(password: string): Promise<string> {
+    const passwordHash = password
+    return password
+  }
 }

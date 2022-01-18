@@ -16,4 +16,9 @@ describe('AuthService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined()
   })
+
+  it('should prevent plaintext password', async () => {
+    const password = 'test'
+    expect(await service.hashPassword(password)).not.toEqual(password)
+  })
 })
