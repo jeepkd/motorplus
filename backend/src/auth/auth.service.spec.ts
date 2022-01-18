@@ -1,13 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing'
 
 import { AuthService } from './auth.service'
+import { PrismaService } from '../prisma/prisma.service'
+import { UsersService } from '../users/users.service'
 
 describe('AuthService', () => {
   let service: AuthService
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AuthService],
+      providers: [AuthService, UsersService, PrismaService],
     }).compile()
 
     service = module.get<AuthService>(AuthService)
@@ -15,10 +17,5 @@ describe('AuthService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined()
-  })
-
-  it('should prevent plaintext password', async () => {
-    const password = 'test'
-    expect(await service.hashPassword(password)).not.toEqual(password)
   })
 })
