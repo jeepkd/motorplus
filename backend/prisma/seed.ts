@@ -8,6 +8,7 @@ async function main() {
     create: {
       email: 'nutthawut.ki@gmail.com',
       username: 'jeep',
+      password_hash: 'password',
     },
   })
 
