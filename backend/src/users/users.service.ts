@@ -1,14 +1,23 @@
+import * as argon2 from 'argon2'
+
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { Prisma, User } from '@prisma/client'
 
+import { CreateUserDto } from './dto'
 import { PrismaService } from '../prisma/prisma.service'
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async create(userParams: Prisma.UserCreateInput): Promise<User> {
-    const user = await this.prisma.user.create({ data: userParams })
+  async create(userParams: CreateUserDto): Promise<User> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const passwordHash = await argon2.hash(Buffer.from(userParams.password))
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...userData } = userParams
+    const user = await this.prisma.user.create({
+      data: { ...userData, passwordHash },
+    })
     return user
   }
 
@@ -17,8 +26,8 @@ export class UsersService {
     return users
   }
 
-  async findOne(id: number): Promise<User> {
-    const user = await this.prisma.user.findUnique({ where: { id } })
+  async findOne(query: Prisma.UserWhereUniqueInput): Promise<User> {
+    const user = await this.prisma.user.findUnique({ where: query })
     if (!user) throw new NotFoundException()
     return user
   }

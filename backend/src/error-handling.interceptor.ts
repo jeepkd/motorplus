@@ -18,7 +18,8 @@ export class ErrorHandlingInterceptor implements NestInterceptor {
         if (error.code == 'P2025') {
           throw new NotFoundException(error.message)
         } else {
-          throw new InternalServerErrorException(error.message)
+          // throw new InternalServerErrorException(error.message)
+          throw error
         }
       }),
     )
