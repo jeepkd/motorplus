@@ -9,11 +9,10 @@ import { UsersService } from '../users/users.service'
 export class AuthService {
   constructor(private usersService: UsersService) {}
 
-  async validateUser(loginParams: LoginUserDto): Promise<any> {
-    const { username, password } = loginParams
+  async validateUser({ username, password }: LoginUserDto): Promise<any> {
     const user = await this.usersService.findOne({ username })
     const isVerified = await argon2.verify(user.passwordHash, password)
-    if (!isVerified) throw new UnauthorizedException('Invalid credentials')
+    if (!isVerified) return null
 
     return user
   }
