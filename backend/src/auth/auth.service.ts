@@ -1,6 +1,7 @@
 import * as argon2 from 'argon2'
 
-import { Injectable } from '@nestjs/common'
+import { Injectable, UnauthorizedException } from '@nestjs/common'
+
 import { LoginUserDto } from '../users/dto'
 import { UsersService } from '../users/users.service'
 
@@ -12,10 +13,8 @@ export class AuthService {
     const { username, password } = loginParams
     const user = await this.usersService.findOne({ username })
     const isVerified = await argon2.verify(user.passwordHash, password)
-    if (!isVerified) return null
+    if (!isVerified) throw new UnauthorizedException('Invalid credentials')
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { passwordHash, ...userData } = user
-    return userData
+    return user
   }
 }

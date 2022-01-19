@@ -29,6 +29,7 @@
     "@nestjs/swagger": "^5.1.5",
     "@prisma/client": "^3.8.1",
     "argon2": "^0.28.3",
+    "omit-deep": "^0.3.0",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
