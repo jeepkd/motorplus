@@ -21,7 +21,7 @@ import Layout from "../../components/layout"
 
 const theme = createTheme()
 
-type Props = {
+interface Props {
   csrfToken?: string
 }
 

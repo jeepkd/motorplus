@@ -7,20 +7,17 @@ import "../styles/globals.css"
 
 import { NextPage } from "next"
 import { SessionProvider } from "next-auth/react"
+import { AppProps } from "next/app"
 import { ReactNode } from "react"
 
 export function MyApp({
   Component,
   pageProps: { session, ...pageProps },
-}): any {
-  // Use the layout defined at the page level, if available
-  const getLayout = Component.getLayout || ((page: ReactNode) => page)
-
-  return getLayout(
+}: AppProps): any {
+  return (
     <SessionProvider session={session}>
       <Component {...pageProps} />
     </SessionProvider>
   )
 }
-
 export default MyApp
