@@ -1,3 +1,5 @@
+import { Observable, catchError } from 'rxjs'
+
 import {
   CallHandler,
   ExecutionContext,
@@ -6,7 +8,6 @@ import {
   NestInterceptor,
   NotFoundException,
 } from '@nestjs/common'
-import { Observable, catchError } from 'rxjs'
 
 // TODO #1 Remove error patching to improve security
 

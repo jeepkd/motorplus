@@ -1,7 +1,7 @@
-import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common'
-
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 import { Response } from 'express'
+
+import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 
 @Catch(PrismaClientKnownRequestError)
 export class PrismaFilter implements ExceptionFilter {

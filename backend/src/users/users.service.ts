@@ -3,8 +3,8 @@ import * as argon2 from 'argon2'
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { Prisma, User } from '@prisma/client'
 
-import { CreateUserDto } from './dto'
 import { PrismaService } from '../prisma/prisma.service'
+import { CreateUserDto } from './dto'
 
 @Injectable()
 export class UsersService {

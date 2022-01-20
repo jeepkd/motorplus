@@ -1,4 +1,5 @@
 import * as omitDeep from 'omit-deep'
+import { Observable, map } from 'rxjs'
 
 import {
   CallHandler,
@@ -6,7 +7,6 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common'
-import { Observable, map } from 'rxjs'
 
 @Injectable()
 export class OmitDeepInterceptor implements NestInterceptor {

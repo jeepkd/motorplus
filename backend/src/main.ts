@@ -1,8 +1,8 @@
+import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
 import { AppModule } from './app.module'
 import { ErrorHandlingInterceptor } from './error-handling.interceptor'
-import { NestFactory } from '@nestjs/core'
 import { OmitDeepInterceptor } from './omit-deep.interceptor'
 import { PrismaFilter } from './prisma.filter'
 
