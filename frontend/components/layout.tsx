@@ -1,11 +1,7 @@
 import { GetServerSideProps, NextPage } from "next"
-import { css, jsx } from "@emotion/react"
-
-import { Container } from "@mui/material"
 import Head from "next/head"
-import MenuAppBar from "./menu-appbar"
-import Toolbar from "@mui/material/Toolbar"
-import styled from "@emotion/styled"
+
+import Navbar from "./navbar"
 
 const Layout: NextPage = ({ children }) => {
   return (
@@ -16,7 +12,7 @@ const Layout: NextPage = ({ children }) => {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <MenuAppBar />
+      <Navbar />
       <main>{children}</main>
     </>
   )

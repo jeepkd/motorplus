@@ -1,10 +1,12 @@
-import CredentialsProvider from "next-auth/providers/credentials"
-import GithubProvider from "next-auth/providers/github"
 import NextAuth from "next-auth"
+import CredentialsProvider from "next-auth/providers/credentials"
 
 export default NextAuth({
   // Configure one or more authentication providers
   secret: process.env.SECRET,
+  pages: {
+    signIn: '/auth/login'
+  },
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -25,7 +27,8 @@ export default NextAuth({
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
-        const res = await fetch("http://localhost:8000/api/v1/auth/login", {
+        const login_url = `${process.env.BACKEND_API_URL}/api/v1/auth/login`
+        const res = await fetch(login_url, {
           method: 'POST',
           body: JSON.stringify(credentials),
           headers: { "Content-Type": "application/json" }
@@ -41,10 +44,4 @@ export default NextAuth({
       }
     })
   ],
-
-  // session: {
-  //   jwt: true
-  // }
-
-
 })

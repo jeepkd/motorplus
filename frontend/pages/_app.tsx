@@ -1,12 +1,13 @@
-import "../styles/globals.css"
 import "@fontsource/roboto/300.css"
 import "@fontsource/roboto/400.css"
 import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
 
+import "../styles/globals.css"
+
 import { NextPage } from "next"
-import { ReactNode } from "react"
 import { SessionProvider } from "next-auth/react"
+import { ReactNode } from "react"
 
 export function MyApp({
   Component,

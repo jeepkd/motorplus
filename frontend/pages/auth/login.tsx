@@ -1,7 +1,9 @@
+import { GetServerSideProps } from "next"
+import type { NextPage } from "next"
+import { getCsrfToken } from "next-auth/react"
 import * as React from "react"
 
-import { ThemeProvider, createTheme } from "@mui/material/styles"
-
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import Avatar from "@mui/material/Avatar"
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
@@ -10,23 +12,20 @@ import Container from "@mui/material/Container"
 import CssBaseline from "@mui/material/CssBaseline"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import Grid from "@mui/material/Grid"
-import Layout from "../../components/layout"
 import Link from "@mui/material/Link"
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
-import { NextPage } from "next"
 import TextField from "@mui/material/TextField"
-import { TextsmsTwoTone } from "@mui/icons-material"
 import Typography from "@mui/material/Typography"
+import { ThemeProvider, createTheme } from "@mui/material/styles"
+
+import Layout from "../../components/layout"
 
 const theme = createTheme()
 
-const Login: NextPage = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    data
-  }
+type Props = {
+  csrfToken?: string
+}
 
+const Login: NextPage<Props> = ({ csrfToken }) => {
   return (
     <Layout>
       <ThemeProvider theme={theme}>
@@ -48,10 +47,12 @@ const Login: NextPage = () => {
             </Typography>
             <Box
               component="form"
-              onSubmit={handleSubmit}
               noValidate
+              action="/api/auth/callback/credentials"
+              method="post"
               sx={{ mt: 1 }}
             >
+              <input type="hidden" name="csrfToken" defaultValue={csrfToken} />
               <TextField
                 margin="normal"
                 required
@@ -97,6 +98,12 @@ const Login: NextPage = () => {
       </ThemeProvider>
     </Layout>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const csrfToken = await getCsrfToken(ctx)
+  const props: Props = { csrfToken }
+  return { props }
 }
 
 export default Login

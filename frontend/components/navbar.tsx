@@ -1,29 +1,24 @@
+import { GetServerSideProps } from "next"
+import { signIn, signOut, useSession } from "next-auth/react"
+import Link from "next/link"
 import * as React from "react"
-
-import { signIn, useSession } from "next-auth/react"
 
 import AccountCircle from "@mui/icons-material/AccountCircle"
 import AppBar from "@mui/material/AppBar"
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
-import FormControlLabel from "@mui/material/FormControlLabel"
-import FormGroup from "@mui/material/FormGroup"
-import { GetServerSideProps } from "next"
 import IconButton from "@mui/material/IconButton"
-import Link from "next/link"
 import Menu from "@mui/material/Menu"
-import MenuIcon from "@mui/icons-material/Menu"
 import MenuItem from "@mui/material/MenuItem"
-import Switch from "@mui/material/Switch"
 import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
 
-export function MenuAppBar() {
+export function Navbar() {
   const { data: session } = useSession()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget)
+  const handleMenu = (e: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(e.currentTarget)
   }
 
   const handleClose = () => {
@@ -34,11 +29,13 @@ export function MenuAppBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" variant="elevation">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            มอเตอร์พลัส
-          </Typography>
+          <Link href="/" passHref>
+            {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}> */}
+            <Box sx={{ flexGrow: 1 }}>มอเตอร์พลัส</Box>
+            {/* </Typography> */}
+          </Link>
           {session && (
-            <div>
+            <Box>
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -50,7 +47,7 @@ export function MenuAppBar() {
                 <AccountCircle />
               </IconButton>
               <Menu
-                id="menu-appbar"
+                // id="menu-appbar"
                 anchorEl={anchorEl}
                 anchorOrigin={{
                   vertical: "top",
@@ -66,38 +63,17 @@ export function MenuAppBar() {
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Log out</MenuItem>
+                <MenuItem onClick={() => signOut()}>Log out</MenuItem>
               </Menu>
-            </div>
+            </Box>
           )}
           {!session && (
-            <Link
-              href="/api/auth/signin"
-              onClick={(e: Event) => {
-                e.preventDefault()
-                signIn()
-              }}
-              passHref
-            >
-              <Button variant="contained" color="info">
-                เข้าสู่ระบบ
-              </Button>
-            </Link>
+            <Button variant="contained" color="info" onClick={() => signIn()}>
+              เข้าสู่ระบบ
+            </Button>
           )}
         </Toolbar>
       </AppBar>
-      <FormGroup>
-        {/* <FormControlLabel
-          control={
-            <Switch
-              checked={session}
-              onChange={handleChange}
-              aria-label="login switch"
-            />
-          }
-          label={session ? "Logout" : "Login"}
-        /> */}
-      </FormGroup>
     </Box>
   )
 }
@@ -110,4 +86,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 }
 
-export default MenuAppBar
+export default Navbar
