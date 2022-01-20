@@ -1,34 +1,30 @@
-import * as React from "react";
+import * as React from "react"
 
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles"
 
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import Container from "@mui/material/Container";
-import CssBaseline from "@mui/material/CssBaseline";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Grid from "@mui/material/Grid";
-import Layout from "../../components/layout";
-import Link from "@mui/material/Link";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { NextPage } from "next";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
+import Avatar from "@mui/material/Avatar"
+import Box from "@mui/material/Box"
+import Button from "@mui/material/Button"
+import Checkbox from "@mui/material/Checkbox"
+import Container from "@mui/material/Container"
+import CssBaseline from "@mui/material/CssBaseline"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import Grid from "@mui/material/Grid"
+import Layout from "../../components/layout"
+import Link from "@mui/material/Link"
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
+import { NextPage } from "next"
+import TextField from "@mui/material/TextField"
+import { TextsmsTwoTone } from "@mui/icons-material"
+import Typography from "@mui/material/Typography"
 
-const theme = createTheme();
+const theme = createTheme()
 
 const Login: NextPage = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    // console.log({
-    //   username: data.get("username"),
-    //   password: data.get("password"),
-    // });
-    console.log(data)
+    event.preventDefault()
+    const data = new FormData(event.currentTarget)
+    data
   }
 
   return (
@@ -100,7 +96,7 @@ const Login: NextPage = () => {
         </Container>
       </ThemeProvider>
     </Layout>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

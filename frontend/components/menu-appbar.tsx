@@ -1,5 +1,7 @@
 import * as React from "react"
 
+import { signIn, useSession } from "next-auth/react"
+
 import AccountCircle from "@mui/icons-material/AccountCircle"
 import AppBar from "@mui/material/AppBar"
 import Box from "@mui/material/Box"
@@ -17,12 +19,8 @@ import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
 
 export function MenuAppBar() {
-  const [auth, setAuth] = React.useState(false)
+  const { data: session } = useSession()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAuth(event.target.checked)
-  }
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -39,7 +37,7 @@ export function MenuAppBar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             มอเตอร์พลัส
           </Typography>
-          {auth && (
+          {session && (
             <div>
               <IconButton
                 size="large"
@@ -72,24 +70,33 @@ export function MenuAppBar() {
               </Menu>
             </div>
           )}
-          {!auth && (
-            <Link href="/auth/login" passHref>
-              <Button variant="contained" color="info">เข้าสู่ระบบ</Button>
+          {!session && (
+            <Link
+              href="/api/auth/signin"
+              onClick={(e: Event) => {
+                e.preventDefault()
+                signIn()
+              }}
+              passHref
+            >
+              <Button variant="contained" color="info">
+                เข้าสู่ระบบ
+              </Button>
             </Link>
           )}
         </Toolbar>
       </AppBar>
       <FormGroup>
-        <FormControlLabel
+        {/* <FormControlLabel
           control={
             <Switch
-              checked={auth}
+              checked={session}
               onChange={handleChange}
               aria-label="login switch"
             />
           }
-          label={auth ? "Logout" : "Login"}
-        />
+          label={session ? "Logout" : "Login"}
+        /> */}
       </FormGroup>
     </Box>
   )
