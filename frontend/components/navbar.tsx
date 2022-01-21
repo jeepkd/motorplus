@@ -30,9 +30,9 @@ export function Navbar() {
       <AppBar position="static" variant="elevation">
         <Toolbar>
           <Link href="/" passHref>
-            {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}> */}
-            <Box sx={{ flexGrow: 1 }}>มอเตอร์พลัส</Box>
-            {/* </Typography> */}
+            <Typography variant="h6" sx={{ flexGrow: 1 }}>
+              มอเตอร์พลัส
+            </Typography>
           </Link>
           {session && (
             <Box>

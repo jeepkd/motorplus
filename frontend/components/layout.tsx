@@ -1,9 +1,11 @@
 import { GetServerSideProps, NextPage } from "next"
+import { useSession } from "next-auth/react"
 import Head from "next/head"
 
 import Navbar from "./navbar"
 
 const Layout: NextPage = ({ children }) => {
+  const { data: session } = useSession()
   return (
     <>
       <Head>
