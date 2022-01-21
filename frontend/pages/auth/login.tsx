@@ -1,6 +1,7 @@
 import { GetServerSideProps } from "next"
 import type { NextPage } from "next"
-import { getCsrfToken } from "next-auth/react"
+import { getCsrfToken, useSession } from "next-auth/react"
+import { useRouter } from "next/router"
 import * as React from "react"
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
@@ -26,6 +27,11 @@ interface Props {
 }
 
 const Login: NextPage<Props> = ({ csrfToken }) => {
+  const { data: session } = useSession()
+  const router = useRouter()
+  if (session) {
+    router.push("/")
+  }
   return (
     <Layout>
       <ThemeProvider theme={theme}>
