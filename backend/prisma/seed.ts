@@ -7,16 +7,6 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function main() {
-  // const user = await prisma.user.upsert({
-  //   where: { email: 'nutthawut.ki@gmail.com' },
-  //   update: {},
-  //   create: {
-  //     email: 'nutthawut.ki@gmail.com',
-  //     username: 'jeep',
-  //     passwordHash: await argon2.hash('password'),
-  //   },
-  // })
-  // console.log({ user })
   const command =
     'docker-compose exec -T db psql -U postgres motorplus_development < ./backup/seed_db.sql'
   exec(command, (error, stdout, stderr) => {

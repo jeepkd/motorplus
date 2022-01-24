@@ -1,3 +1,4 @@
+import { VersioningType } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 
@@ -13,6 +14,10 @@ async function bootstrap() {
     new ErrorHandlingInterceptor(),
     new OmitDeepInterceptor(),
   )
+
+  app.enableVersioning({
+    type: VersioningType.URI,
+  })
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('MotorPlus')
