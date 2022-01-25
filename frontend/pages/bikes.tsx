@@ -1,49 +1,78 @@
-import { GetServerSideProps, NextPage } from "next"
-import { useEffect, useState } from "react"
-import useSWR from "swr"
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/router"
 
-import { Box, List } from "@mui/material"
+import { Box } from "@mui/material"
+import { DataGrid, GridColDef } from "@mui/x-data-grid"
+import { Bike } from "@prisma/client"
 
 import Layout from "../components/layout"
+import prisma from "../lib/prisma"
 import { Page } from "../types/page"
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json())
-
-interface Props {}
-
-interface Bike {
-  id: number
-  engineNumber: string
+interface Props {
+  bikes: Bike[]
 }
 
-const initialBikes: Bike[] = [
-  { id: 1, engineNumber: "test" },
-  { id: 2, engineNumber: "test" },
-  { id: 3, engineNumber: "test" },
-  { id: 4, engineNumber: "test" },
-  { id: 5, engineNumber: "test" },
+const columns: GridColDef[] = [
+  { field: "id", headerName: "ID", width: 100 },
+  { field: "chassisNumber", headerName: "เลขตัวถัง", width: 130 },
+  { field: "engineNumber", headerName: "เลขเครื่อง", width: 130 },
+  {
+    field: "BikeBrand",
+    headerName: "ยี่ห้อ",
+    type: "number",
+    width: 130,
+    valueGetter: (params) => params.row.BikeBrand.name,
+  },
+  {
+    field: "BikeModel",
+    headerName: "รุ่น",
+    type: "number",
+    width: 130,
+    valueGetter: (params) => params.row.BikeModel.name,
+  },
+  {
+    field: "BikeColor",
+    headerName: "รุ่น",
+    type: "number",
+    width: 130,
+    valueGetter: (params) => params.row.BikeColor.name,
+  },
 ]
 
-const BikePage = () => {
-  // const { data, error } = useSWR("/bikes")
-  const [bikes, setBikes] = useState<Bike[]>([])
-  useEffect(() => {
-    setBikes(initialBikes)
-  }, [])
-
+const BikePage: Page<Props> = ({ bikes }) => {
+  const { data: session } = useSession({ required: true })
   return (
-    <ul>
-      {bikes.map((bike) => (
-        <li key={bike.id}>
-          {bike.id} {bike.engineNumber}
-        </li>
-      ))}
-    </ul>
-    // <div></div>
+    <Box height="720px">
+      <DataGrid
+        rows={bikes}
+        columns={columns}
+        // pageSize={5}
+        // rowsPerPageOptions={[2]}
+        checkboxSelection
+      />
+    </Box>
   )
 }
 
-BikePage.getLayout = (page: Page) => {
+BikePage.getLayout = (page) => {
   return <Layout>{page}</Layout>
 }
+
+export const getServerSideProps = async () => {
+  const bikes = await prisma.bike.findMany({
+    select: {
+      id: true,
+      chassisNumber: true,
+      engineNumber: true,
+      BikeBrand: true,
+      BikeColor: true,
+      BikeModel: true,
+    },
+  })
+  return {
+    props: { bikes },
+  }
+}
+
 export default BikePage

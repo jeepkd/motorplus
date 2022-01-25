@@ -1,8 +1,6 @@
 import { GetServerSideProps, NextPage } from "next"
-import { useSession } from "next-auth/react"
 import Head from "next/head"
 
-// import { ThemeProvider, createTheme } from "@mui/material"
 import { ThemeProvider, createTheme } from "@mui/material/styles"
 
 import Navbar from "./navbar"

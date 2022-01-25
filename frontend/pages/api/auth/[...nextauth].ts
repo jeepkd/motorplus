@@ -1,10 +1,11 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
-import { Prisma } from "@prisma/client"
 import * as argon2 from "argon2"
 
 import prisma from "../../../lib/prisma"
+
+const hours = (h: number) => h * 60 * 60
 
 interface LoginInput {
   username: string
@@ -16,6 +17,9 @@ export default NextAuth({
   secret: process.env.SECRET,
   pages: {
     signIn: "/auth/login",
+  },
+  session: {
+    maxAge: hours(12), //
   },
   providers: [
     CredentialsProvider({
@@ -32,7 +36,6 @@ export default NextAuth({
 
       async authorize(credentials, req) {
         const { username, password } = <LoginInput>credentials
-        const query: Prisma.UserWhereUniqueInput = { username }
 
         const user = await prisma.user.findUnique({
           where: { username },
@@ -46,4 +49,23 @@ export default NextAuth({
       },
     }),
   ],
+  callbacks: {
+    jwt({ token, user }) {
+      if (user) {
+        console.log("-------jwt--------")
+        console.log({ token, user })
+        token.username = user.username
+      }
+      return token
+    },
+    session({ session, token, user }) {
+      console.log("-------session--------")
+      console.log({ session, token, user })
+      if (token.username && session.user) {
+        session.user.username = token.username
+      }
+      console.log({ session, token })
+      return session
+    },
+  },
 })

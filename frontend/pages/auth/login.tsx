@@ -1,5 +1,4 @@
 import { GetServerSideProps } from "next"
-import type { NextPage } from "next"
 import { getCsrfToken, useSession } from "next-auth/react"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
@@ -17,9 +16,9 @@ import Grid from "@mui/material/Grid"
 import Link from "@mui/material/Link"
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography"
-import { ThemeProvider, createTheme } from "@mui/material/styles"
 
 import Layout from "../../components/layout"
+import { SnackbarAlert } from "../../components/snackbar-alert"
 import { Page } from "../../types/page"
 
 interface Props {
@@ -28,47 +27,25 @@ interface Props {
 
 const Login: Page<Props> = ({ csrfToken }) => {
   const { data: session } = useSession()
-  const [alertOpen, setAlertOpen] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<null | string>(null)
 
   const router = useRouter()
   const { error } = router.query
-
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return
-    }
-    setAlertOpen(false)
-  }
 
   if (session) {
     router.push("/")
   }
 
   useEffect(() => {
-    if (error === "CredentialsSignin") setAlertOpen(true)
+    if (error === "CredentialsSignin") setErrorMessage("รหัสผ่านไม่ถูกต้อง")
+    else if (error === "SessionRequired") setErrorMessage("กรุณาเข้าสู่ระบบ")
+    else if (error)
+      setErrorMessage("โปรแกรมทำงานผิดพลาดบางอย่าง ติดต่อผู้ดูแลระบบ")
   }, [error])
 
   return (
     <Container component="main" maxWidth="xs">
-      <Snackbar
-        open={alertOpen}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{ width: "30%" }}
-      >
-        <Alert
-          onClose={handleClose}
-          severity="error"
-          variant="filled"
-          sx={{ width: "100%" }}
-        >
-          รหัสผ่านไม่ถูกต้อง
-        </Alert>
-      </Snackbar>
+      {errorMessage && <SnackbarAlert>{errorMessage}</SnackbarAlert>}
       <CssBaseline />
       <Box
         sx={{
@@ -137,9 +114,9 @@ const Login: Page<Props> = ({ csrfToken }) => {
   )
 }
 
-Login.getLayout = (page) => {
-  return <Layout>{page}</Layout>
-}
+// Login.getLayout = (page) => {
+//   return <Layout>{page}</Layout>
+// }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const props: Props = {
