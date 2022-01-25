@@ -10,13 +10,21 @@ import { SessionProvider } from "next-auth/react"
 import { AppProps } from "next/app"
 import { ReactNode } from "react"
 
+import { Page } from "../types/page"
+
+type Props = AppProps & {
+  Component: Page
+}
+
 export function MyApp({
   Component,
   pageProps: { session, ...pageProps },
-}: AppProps): any {
+}: Props): any {
+  const getLayout = Component.getLayout || ((page: ReactNode) => page)
+
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      {getLayout(<Component {...pageProps} />)}
     </SessionProvider>
   )
 }

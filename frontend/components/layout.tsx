@@ -2,10 +2,14 @@ import { GetServerSideProps, NextPage } from "next"
 import { useSession } from "next-auth/react"
 import Head from "next/head"
 
+// import { ThemeProvider, createTheme } from "@mui/material"
+import { ThemeProvider, createTheme } from "@mui/material/styles"
+
 import Navbar from "./navbar"
 
+const theme = createTheme()
+
 const Layout: NextPage = ({ children }) => {
-  const { data: session } = useSession()
   return (
     <>
       <Head>
@@ -14,8 +18,10 @@ const Layout: NextPage = ({ children }) => {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
-      <main>{children}</main>
+      <ThemeProvider theme={theme}>
+        <Navbar />
+        <main>{children}</main>
+      </ThemeProvider>
     </>
   )
 }
