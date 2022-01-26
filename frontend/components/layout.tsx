@@ -1,7 +1,11 @@
 import { GetServerSideProps, NextPage } from "next"
 import Head from "next/head"
 
+import { ThemeProvider, createTheme } from "@mui/material/styles"
+
 import Navbar from "./navbar"
+
+const theme = createTheme()
 
 const Layout: NextPage = ({ children }) => {
   return (
@@ -12,8 +16,10 @@ const Layout: NextPage = ({ children }) => {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
-      <main>{children}</main>
+      <ThemeProvider theme={theme}>
+        <Navbar />
+        <main>{children}</main>
+      </ThemeProvider>
     </>
   )
 }

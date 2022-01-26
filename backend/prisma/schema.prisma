@@ -17,3 +17,36 @@ model User {
   username     String  @unique
   passwordHash String  @default(dbgenerated())
 }
+
+model Bike {
+  id            Int       @id @default(autoincrement())
+  chassisNumber String    @unique
+  engineNumber  String    @unique
+  bikeBrand     BikeBrand @relation(fields: [bikeBrandId], references: [id])
+  bikeBrandId   Int
+  bikeModel     BikeModel @relation(fields: [bikeModelId], references: [id])
+  bikeModelId   Int
+  bikeColor     BikeColor @relation(fields: [bikeColorId], references: [id])
+  bikeColorId   Int
+}
+
+model BikeBrand {
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  bike      Bike[]
+  BikeModel BikeModel[]
+}
+
+model BikeModel {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  bike        Bike[]
+  bikeBrand   BikeBrand @relation(fields: [bikeBrandId], references: [id])
+  bikeBrandId Int
+}
+
+model BikeColor {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  bike Bike[]
+}

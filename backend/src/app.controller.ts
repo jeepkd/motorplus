@@ -1,11 +1,18 @@
-import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common'
+import {
+  Controller,
+  ControllerOptions,
+  Get,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common'
 
 import { AppService } from './app.service'
 import { AuthService } from './auth/auth.service'
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard'
 import { LocalAuthGuard } from './auth/guards/local-auth.guard'
 
-@Controller('api/v1')
+@Controller(<ControllerOptions>{ version: '1' })
 export class AppController {
   constructor(
     private appService: AppService,

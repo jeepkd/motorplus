@@ -1,19 +1,26 @@
 import type { NextPage } from "next"
-import Head from "next/head"
-import Image from "next/image"
 import Link from "next/link"
 
-import Button from "@mui/material/Button"
-
 import Layout from "../components/layout"
-import styles from "../styles/Home.module.css"
+import { Page } from "../types/page"
 
-const Home: NextPage = () => {
+const Home: Page = () => {
   return (
     <>
-      <Layout>Index</Layout>
+      <h1>Index</h1>
+      <ul>
+        <li>
+          <Link href="/bikes">bikes</Link>
+        </li>
+        <li>
+          <Link href="/users">users</Link>
+        </li>
+      </ul>
     </>
   )
+}
+Home.getLayout = (page) => {
+  return <Layout>{page}</Layout>
 }
 
 export default Home

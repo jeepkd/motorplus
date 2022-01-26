@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  ControllerOptions,
   Delete,
   Get,
   Param,
@@ -12,7 +13,7 @@ import { User } from '@prisma/client'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 
-@Controller('users')
+@Controller(<ControllerOptions>{ version: '1', path: 'users' })
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 

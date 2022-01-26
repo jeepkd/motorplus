@@ -4,6 +4,7 @@ import Link from "next/link"
 import * as React from "react"
 
 import AccountCircle from "@mui/icons-material/AccountCircle"
+import { Stack } from "@mui/material"
 import AppBar from "@mui/material/AppBar"
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
@@ -30,12 +31,18 @@ export function Navbar() {
       <AppBar position="static" variant="elevation">
         <Toolbar>
           <Link href="/" passHref>
-            {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}> */}
-            <Box sx={{ flexGrow: 1 }}>มอเตอร์พลัส</Box>
-            {/* </Typography> */}
+            <Typography variant="h6" sx={{ flexGrow: 1 }}>
+              มอเตอร์พลัส
+            </Typography>
           </Link>
           {session && (
-            <Box>
+            <Stack direction="row" alignItems="center">
+              <Box>
+                {/* <Typography component="span">{session.user?.name}</Typography> */}
+                <Typography component="span">
+                  {JSON.stringify(session)}
+                </Typography>
+              </Box>
               <IconButton
                 size="large"
                 aria-label="account of current user"
@@ -61,11 +68,9 @@ export function Navbar() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
                 <MenuItem onClick={() => signOut()}>Log out</MenuItem>
               </Menu>
-            </Box>
+            </Stack>
           )}
           {!session && (
             <Button variant="contained" color="info" onClick={() => signIn()}>

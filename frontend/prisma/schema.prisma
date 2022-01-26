@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Bike {
+  id            Int       @id @default(autoincrement())
+  bikeBrandId   Int
+  bikeModelId   Int
+  bikeColorId   Int
+  chassisNumber String    @unique
+  engineNumber  String    @unique
+  BikeBrand     BikeBrand @relation(fields: [bikeBrandId], references: [id])
+  BikeColor     BikeColor @relation(fields: [bikeColorId], references: [id])
+  BikeModel     BikeModel @relation(fields: [bikeModelId], references: [id])
+}
+
+model BikeBrand {
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  Bike      Bike[]
+  BikeModel BikeModel[]
+}
+
+model BikeColor {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  Bike Bike[]
+}
+
+model BikeModel {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  bikeBrandId Int
+  BikeBrand   BikeBrand @relation(fields: [bikeBrandId], references: [id])
+  Bike        Bike[]
+}
+
+model User {
+  id           Int     @id @default(autoincrement())
+  email        String? @unique
+  username     String  @unique
+  passwordHash String
+}
