@@ -15,6 +15,9 @@ const Home: Page = () => {
         <li>
           <Link href="/users">users</Link>
         </li>
+        <li>
+          <Link href="/testpage">testpage</Link>
+        </li>
       </ul>
     </>
   )

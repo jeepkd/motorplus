@@ -38,9 +38,8 @@ export function Navbar() {
           {session && (
             <Stack direction="row" alignItems="center">
               <Box>
-                {/* <Typography component="span">{session.user?.name}</Typography> */}
                 <Typography component="span">
-                  {JSON.stringify(session)}
+                  {session.user?.username}
                 </Typography>
               </Box>
               <IconButton
@@ -54,7 +53,6 @@ export function Navbar() {
                 <AccountCircle />
               </IconButton>
               <Menu
-                // id="menu-appbar"
                 anchorEl={anchorEl}
                 anchorOrigin={{
                   vertical: "top",

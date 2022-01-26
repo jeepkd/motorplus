@@ -51,20 +51,14 @@ export default NextAuth({
   ],
   callbacks: {
     jwt({ token, user }) {
-      if (user) {
-        console.log("-------jwt--------")
-        console.log({ token, user })
+      if (user?.username) {
         token.username = user.username
       }
       return token
     },
     session({ session, token, user }) {
-      console.log("-------session--------")
+      session.user.username = token.username
       console.log({ session, token, user })
-      if (token.username && session.user) {
-        session.user.username = token.username
-      }
-      console.log({ session, token })
       return session
     },
   },

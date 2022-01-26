@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
@@ -7,42 +8,79 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String?  @unique
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  role         Role     @default(USER)
+  updatedAt    DateTime @default(now()) @updatedAt
+  addressId    Int      @unique
+  Address      Address  @relation(fields: [addressId], references: [id])
+}
+
+model Customer {
+  id         Int      @id @default(autoincrement())
+  customerID String?  @unique
+  name       String?
+  telephone  String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+  addressId  Int      @unique
+  Address    Address  @relation(fields: [addressId], references: [id])
+}
+
+model Address {
+  id          Int       @id @default(autoincrement())
+  address     String?
+  subdistrict String?
+  district    String?
+  province    String?
+  zipcode     String?
+  User        User?
+  Customer    Customer?
+}
+
 model Bike {
   id            Int       @id @default(autoincrement())
-  bikeBrandId   Int
   bikeModelId   Int
   bikeColorId   Int
   chassisNumber String    @unique
   engineNumber  String    @unique
-  BikeBrand     BikeBrand @relation(fields: [bikeBrandId], references: [id])
-  BikeColor     BikeColor @relation(fields: [bikeColorId], references: [id])
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now()) @updatedAt
   BikeModel     BikeModel @relation(fields: [bikeModelId], references: [id])
+  BikeColor     BikeColor @relation(fields: [bikeColorId], references: [id])
 }
 
 model BikeBrand {
   id        Int         @id @default(autoincrement())
   name      String      @unique
-  Bike      Bike[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @default(now()) @updatedAt
   BikeModel BikeModel[]
-}
-
-model BikeColor {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-  Bike Bike[]
 }
 
 model BikeModel {
   id          Int       @id @default(autoincrement())
   name        String    @unique
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+  Bike        Bike[]
   bikeBrandId Int
   BikeBrand   BikeBrand @relation(fields: [bikeBrandId], references: [id])
-  Bike        Bike[]
 }
 
-model User {
-  id           Int     @id @default(autoincrement())
-  email        String? @unique
-  username     String  @unique
-  passwordHash String
+model BikeColor {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  bike      Bike[]
+}
+
+enum Role {
+  USER
+  ADMIN
 }

@@ -22,7 +22,7 @@ const columns: GridColDef[] = [
     headerName: "ยี่ห้อ",
     type: "number",
     width: 130,
-    valueGetter: (params) => params.row.BikeBrand.name,
+    valueGetter: (params) => params.row.BikeModel.BikeBrand.name,
   },
   {
     field: "BikeModel",
@@ -33,7 +33,7 @@ const columns: GridColDef[] = [
   },
   {
     field: "BikeColor",
-    headerName: "รุ่น",
+    headerName: "สี",
     type: "number",
     width: 130,
     valueGetter: (params) => params.row.BikeColor.name,
@@ -65,9 +65,20 @@ export const getServerSideProps = async () => {
       id: true,
       chassisNumber: true,
       engineNumber: true,
-      BikeBrand: true,
-      BikeColor: true,
-      BikeModel: true,
+      createdAt: false,
+      BikeColor: {
+        select: { name: true },
+      },
+      BikeModel: {
+        select: {
+          name: true,
+          BikeBrand: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
     },
   })
   return {
