@@ -29,7 +29,7 @@ model Bike {
   bikeModelId   Int
   bikeColorId   Int
   chassisNumber String     @unique
-  engineNumber  String     @unique
+  engineNumber  String?
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @default(now()) @updatedAt
   BikeModel     BikeModel  @relation(fields: [bikeModelId], references: [id])

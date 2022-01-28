@@ -1,15 +1,6 @@
-import { Client } from "pg"
+import { Prisma } from "@prisma/client"
 
-import { Prisma, PrismaClient } from "@prisma/client"
-
-const prisma = new PrismaClient()
-const client = new Client({
-  user: "postgres",
-  host: "localhost",
-  database: "hi",
-  password: "password",
-  port: 5432,
-})
+import { pgclient, prisma } from "./helpers"
 
 const query = `
   select * from tblcustomer;
@@ -24,10 +15,9 @@ const constructAddress = (c: any) => {
   return addressList.join(" ")
 }
 
-async function main() {
-  await client.connect()
-  const res = await client.query(query)
-  // res.rows.forEach(async (c) => {
+export async function migrateCustomer() {
+  await pgclient.connect()
+  const res = await pgclient.query(query)
   for (const c of res.rows) {
     const prismaCustomer: Prisma.CustomerCreateInput = {
       customerNumber: c.customercode,
@@ -47,6 +37,6 @@ async function main() {
     }
     console.log(await prisma.customer.create({ data: prismaCustomer }))
   }
-  await client.end()
+  await pgclient.end()
 }
-main()
+migrateCustomer()
