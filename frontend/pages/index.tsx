@@ -13,7 +13,7 @@ const Home: Page = () => {
         <h1>Index</h1>
         <ul>
           <li>
-            <Link href="/bikes">bikes</Link>
+            <Link href="/vehicles">vehicles</Link>
           </li>
           <li>
             <Link href="/users">users</Link>

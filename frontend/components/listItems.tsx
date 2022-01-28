@@ -15,12 +15,12 @@ import ListSubheader from "@mui/material/ListSubheader"
 
 export const mainListItems = (
   <Box>
-    <Link href="/bikes" passHref>
+    <Link href="/vehicles" passHref>
       <ListItem button>
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
-        <ListItemText primary="รถจักรยานยนต์" />
+        <ListItemText primary="รถ" />
       </ListItem>
     </Link>
     <Link href="/customers" passHref>

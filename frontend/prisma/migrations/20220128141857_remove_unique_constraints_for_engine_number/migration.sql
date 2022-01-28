@@ -1,5 +1,5 @@
 -- DropIndex
-DROP INDEX "Bike_engineNumber_key";
+DROP INDEX "Vehicle_engineNumber_key";
 
 -- AlterTable
-ALTER TABLE "Bike" ALTER COLUMN "engineNumber" DROP NOT NULL;
+ALTER TABLE "Vehicle" ALTER COLUMN "engineNumber" DROP NOT NULL;

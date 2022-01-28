@@ -24,55 +24,55 @@ model Address {
   Customer    Customer?
 }
 
-model Bike {
-  id            Int        @id @default(autoincrement())
-  bikeModelId   Int
-  bikeColorId   Int
-  chassisNumber String     @unique
-  engineNumber  String?
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @default(now()) @updatedAt
-  BikeModel     BikeModel  @relation(fields: [bikeModelId], references: [id])
-  BikeColor     BikeColor  @relation(fields: [bikeColorId], references: [id])
-  Contract      Contract[]
+model Vehicle {
+  id             Int          @id @default(autoincrement())
+  vehicleModelId Int
+  vehicleColorId Int
+  chassisNumber  String       @unique
+  engineNumber   String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now()) @updatedAt
+  VehicleModel   VehicleModel @relation(fields: [vehicleModelId], references: [id])
+  VehicleColor   VehicleColor @relation(fields: [vehicleColorId], references: [id])
+  Contract       Contract[]
 }
 
-model BikeBrand {
-  id        Int         @id @default(autoincrement())
-  name      String      @unique
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @default(now()) @updatedAt
-  BikeModel BikeModel[]
+model VehicleBrand {
+  id           Int            @id @default(autoincrement())
+  name         String         @unique
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @default(now()) @updatedAt
+  VehicleModel VehicleModel[]
 }
 
-model BikeColor {
-  id        Int      @id @default(autoincrement())
-  code      String   @unique
-  name      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  bike      Bike[]
+model VehicleColor {
+  id        Int       @id @default(autoincrement())
+  code      String    @unique
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  vehicle   Vehicle[]
 }
 
-model BikeModel {
-  id          Int       @id @default(autoincrement())
-  name        String    @unique
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @default(now()) @updatedAt
-  Bike        Bike[]
-  bikeBrandId Int
-  BikeBrand   BikeBrand @relation(fields: [bikeBrandId], references: [id])
+model VehicleModel {
+  id             Int          @id @default(autoincrement())
+  name           String       @unique
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now()) @updatedAt
+  Vehicle        Vehicle[]
+  vehicleBrandId Int
+  VehicleBrand   VehicleBrand @relation(fields: [vehicleBrandId], references: [id])
 }
 
 model Contract {
   id             Int      @id @default(autoincrement())
   contractNumber String?  @unique
   Customer       Customer @relation(fields: [customerId], references: [id])
-  Bike           Bike     @relation(fields: [bikeId], references: [id])
+  Vehicle        Vehicle  @relation(fields: [vehicleId], references: [id])
   createdAt      DateTime @default(now())
   updatedAt      DateTime @default(now()) @updatedAt
   customerId     Int
-  bikeId         Int
+  vehicleId      Int
 }
 
 model Customer {

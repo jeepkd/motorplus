@@ -25,17 +25,17 @@ async function main() {
   })
   console.log({ user })
 
-  const bikes = await prisma.bike.create({
+  const vehicles = await prisma.vehicle.create({
     data: {
       chassisNumber: "MLHJA1403M5801819",
       engineNumber: "JA14E1601819",
-      BikeColor: {
+      VehicleColor: {
         create: { name: "ดำ", code: "BK" },
       },
-      BikeModel: {
+      VehicleModel: {
         create: {
           name: "AFS110MSFC",
-          BikeBrand: { create: { name: "HONDA" } },
+          VehicleBrand: { create: { name: "HONDA" } },
         },
       },
     },

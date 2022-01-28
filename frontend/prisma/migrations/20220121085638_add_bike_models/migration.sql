@@ -1,41 +1,41 @@
 -- CreateTable
-CREATE TABLE "Bike" (
+CREATE TABLE "Vehicle" (
     "id" SERIAL NOT NULL,
-    "bikeBrandId" INTEGER NOT NULL,
-    "bikeModelId" INTEGER NOT NULL,
-    "bikeColorId" INTEGER NOT NULL,
+    "vehicleBrandId" INTEGER NOT NULL,
+    "vehicleModelId" INTEGER NOT NULL,
+    "vehicleColorId" INTEGER NOT NULL,
 
-    CONSTRAINT "Bike_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Vehicle_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "BikeBrand" (
+CREATE TABLE "VehicleBrand" (
     "id" SERIAL NOT NULL,
 
-    CONSTRAINT "BikeBrand_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "VehicleBrand_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "BikeModel" (
+CREATE TABLE "VehicleModel" (
     "id" SERIAL NOT NULL,
     "model" TEXT NOT NULL,
 
-    CONSTRAINT "BikeModel_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "VehicleModel_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "BikeColor" (
+CREATE TABLE "VehicleColor" (
     "id" SERIAL NOT NULL,
     "color" TEXT NOT NULL,
 
-    CONSTRAINT "BikeColor_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "VehicleColor_pkey" PRIMARY KEY ("id")
 );
 
 -- AddForeignKey
-ALTER TABLE "Bike" ADD CONSTRAINT "Bike_bikeBrandId_fkey" FOREIGN KEY ("bikeBrandId") REFERENCES "BikeBrand"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Vehicle" ADD CONSTRAINT "Vehicle_vehicleBrandId_fkey" FOREIGN KEY ("vehicleBrandId") REFERENCES "VehicleBrand"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Bike" ADD CONSTRAINT "Bike_bikeModelId_fkey" FOREIGN KEY ("bikeModelId") REFERENCES "BikeModel"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Vehicle" ADD CONSTRAINT "Vehicle_vehicleModelId_fkey" FOREIGN KEY ("vehicleModelId") REFERENCES "VehicleModel"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Bike" ADD CONSTRAINT "Bike_bikeColorId_fkey" FOREIGN KEY ("bikeColorId") REFERENCES "BikeColor"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Vehicle" ADD CONSTRAINT "Vehicle_vehicleColorId_fkey" FOREIGN KEY ("vehicleColorId") REFERENCES "VehicleColor"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

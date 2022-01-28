@@ -3,14 +3,14 @@ import { useRouter } from "next/router"
 
 import { Box, Paper } from "@mui/material"
 import { DataGrid, GridColDef } from "@mui/x-data-grid"
-import { Bike } from "@prisma/client"
+import { Vehicle } from "@prisma/client"
 
 import Layout from "../components/layout"
 import prisma from "../lib/prisma"
 import { Page } from "../types/page"
 
 interface Props {
-  bikes: Bike[]
+  vehicles: Vehicle[]
 }
 
 const columns: GridColDef[] = [
@@ -18,35 +18,35 @@ const columns: GridColDef[] = [
   { field: "chassisNumber", headerName: "เลขตัวถัง", width: 130 },
   { field: "engineNumber", headerName: "เลขเครื่อง", width: 130 },
   {
-    field: "BikeBrand",
+    field: "VehicleBrand",
     headerName: "ยี่ห้อ",
     type: "number",
     width: 130,
-    valueGetter: (params) => params.row.BikeModel.BikeBrand.name,
+    valueGetter: (params) => params.row.VehicleModel.VehicleBrand.name,
   },
   {
-    field: "BikeModel",
+    field: "VehicleModel",
     headerName: "รุ่น",
     type: "number",
     width: 130,
-    valueGetter: (params) => params.row.BikeModel.name,
+    valueGetter: (params) => params.row.VehicleModel.name,
   },
   {
-    field: "BikeColor",
+    field: "VehicleColor",
     headerName: "สี",
     type: "number",
     width: 130,
-    valueGetter: (params) => params.row.BikeColor.name,
+    valueGetter: (params) => params.row.VehicleColor.name,
   },
 ]
 
-const BikePage: Page<Props> = ({ bikes }) => {
+const VehiclePage: Page<Props> = ({ vehicles }) => {
   const { data: session } = useSession({ required: true })
   return (
     // <Box height="720px">
     <Paper sx={{ height: 600 }}>
       <DataGrid
-        rows={bikes}
+        rows={vehicles}
         columns={columns}
         // pageSize={5}
         // rowsPerPageOptions={[2]}
@@ -57,24 +57,24 @@ const BikePage: Page<Props> = ({ bikes }) => {
   )
 }
 
-BikePage.getLayout = (page) => {
+VehiclePage.getLayout = (page) => {
   return <Layout>{page}</Layout>
 }
 
 export const getServerSideProps = async () => {
-  const bikes = await prisma.bike.findMany({
+  const vehicles = await prisma.vehicle.findMany({
     select: {
       id: true,
       chassisNumber: true,
       engineNumber: true,
       createdAt: false,
-      BikeColor: {
+      VehicleColor: {
         select: { name: true },
       },
-      BikeModel: {
+      VehicleModel: {
         select: {
           name: true,
-          BikeBrand: {
+          VehicleBrand: {
             select: {
               name: true,
             },
@@ -84,8 +84,8 @@ export const getServerSideProps = async () => {
     },
   })
   return {
-    props: { bikes },
+    props: { vehicles },
   }
 }
 
-export default BikePage
+export default VehiclePage
