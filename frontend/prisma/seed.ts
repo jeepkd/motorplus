@@ -40,12 +40,14 @@ async function main() {
       },
     },
   })
-  console.log({ bikes })
 
   const customer = await prisma.customer.create({
     data: {
       customerID: "2419900031361",
-      name: "ณัฐวุฒิ คิดดี",
+      title: "นาย",
+      firstname: "ณัฐวุฒิี",
+      lastname: "คิดดี",
+      telephone: "0894194120",
       Address: {
         create: {
           address: "347 หมู่ 6",

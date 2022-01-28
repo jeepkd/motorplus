@@ -58,7 +58,6 @@ export default NextAuth({
     },
     session({ session, token, user }) {
       session.user.username = token.username
-      console.log({ session, token, user })
       return session
     },
   },
