@@ -30,7 +30,7 @@ async function main() {
       chassisNumber: "MLHJA1403M5801819",
       engineNumber: "JA14E1601819",
       BikeColor: {
-        create: { name: "ดำ-แดง" },
+        create: { name: "ดำ", code: "BK" },
       },
       BikeModel: {
         create: {

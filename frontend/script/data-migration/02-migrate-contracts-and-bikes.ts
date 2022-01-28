@@ -1,4 +1,7 @@
-import { Prisma } from "@prisma/client"
+import { Client } from "pg"
+import { Exception } from "sass"
+
+import { Prisma, PrismaClient } from "@prisma/client"
 
 import { pgclient, prisma } from "./helpers"
 
@@ -18,56 +21,55 @@ WHERE
 
 export async function migrateContractsAndBikes() {
   await pgclient.connect()
-  const res = await pgclient.query(query)
-  for (const c of res.rows) {
-    const prismaContract: Prisma.ContractCreateInput = {
-      contractNumber: c.contractno,
-      Customer: {
-        connect: {
-          customerNumber: c.customercode,
-        },
-      },
-      Bike: {
-        connectOrCreate: {
-          where: { chassisNumber: c.chassisno },
-          create: {
-            chassisNumber: c.chassisno,
-            engineNumber: c.enginno,
-            BikeColor: {
-              connectOrCreate: {
-                where: { name: c.meaning },
-                create: { name: c.meaning },
-              },
-            },
-            BikeModel: {
-              connectOrCreate: {
-                where: { name: c.model },
-                create: {
-                  name: c.model,
-                  BikeBrand: {
-                    connectOrCreate: {
-                      where: { name: c.brandname },
-                      create: { name: c.brandname },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    }
-    console.log(prismaContract)
-    const contract = await prisma.contract.upsert(
-      {
-        where: { contractNumber: c.contractno },
-        update: prismaContract,
-        create: prismaContract,
-      }
-      // { create: prismaContract }
-    )
-    console.log(contract)
-  }
+
+  migrateColor(pgclient)
+  migrateBrand(pgclient)
+
   await pgclient.end()
 }
+
+async function migrateColor(pgclient: Client) {
+  const res = await pgclient.query(` SELECT * FROM tblcolorcode `)
+
+  for (const c of res.rows) {
+    const entity: Prisma.BikeColorCreateInput = {
+      code: c.colorcode,
+      name: c.meaning,
+    }
+    try {
+      const color = await prisma.bikeColor.upsert({
+        where: { code: c.colorcode },
+        create: entity,
+        update: entity,
+      })
+      console.log(color)
+    } catch (err: any) {
+      if (err?.code == "P2002") continue
+      throw err
+    }
+  }
+}
+
+async function migrateBrand(pgclient: Client) {
+  const res = await pgclient.query(` SELECT * FROM tbl `)
+
+  for (const c of res.rows) {
+    const entity: Prisma.BikeBrandCreateInput = {
+      code: c.colorcode,
+      name: c.meaning,
+    }
+    try {
+      const color = await prisma.bikeColor.upsert({
+        where: { code: c.colorcode },
+        create: entity,
+        update: entity,
+      })
+      console.log(color)
+    } catch (err: any) {
+      if (err?.code == "P2002") continue
+      throw err
+    }
+  }
+}
+
 migrateContractsAndBikes()
