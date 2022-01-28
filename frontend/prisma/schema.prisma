@@ -25,16 +25,16 @@ model Address {
 }
 
 model Bike {
-  id            Int       @id @default(autoincrement())
+  id            Int        @id @default(autoincrement())
   bikeModelId   Int
   bikeColorId   Int
-  chassisNumber String    @unique
-  engineNumber  String    @unique
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @default(now()) @updatedAt
-  BikeModel     BikeModel @relation(fields: [bikeModelId], references: [id])
-  BikeColor     BikeColor @relation(fields: [bikeColorId], references: [id])
-  // Contract      Contract[]
+  chassisNumber String     @unique
+  engineNumber  String     @unique
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @default(now()) @updatedAt
+  BikeModel     BikeModel  @relation(fields: [bikeModelId], references: [id])
+  BikeColor     BikeColor  @relation(fields: [bikeColorId], references: [id])
+  Contract      Contract[]
 }
 
 model BikeBrand {
@@ -63,28 +63,29 @@ model BikeModel {
   BikeBrand   BikeBrand @relation(fields: [bikeBrandId], references: [id])
 }
 
-// model Contract {
-//   id             Int      @id @default(autoincrement())
-//   contractNumber String?  @unique
-//   Bike           Bike     @relation(fields: [bikeId], references: [id])
-//   Customer       Customer @relation(fields: [customerId], references: [customerID])
-//   createdAt      DateTime @default(now())
-//   updatedAt      DateTime @default(now()) @updatedAt
-//   bikeId         Int
-//   customerId     Int
-// }
+model Contract {
+  id             Int      @id @default(autoincrement())
+  contractNumber String?  @unique
+  Customer       Customer @relation(fields: [customerId], references: [id])
+  Bike           Bike     @relation(fields: [bikeId], references: [id])
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now()) @updatedAt
+  customerId     Int
+  bikeId         Int
+}
 
 model Customer {
-  id             Int      @id @default(autoincrement())
-  customerNumber String?  @unique
+  id             Int        @id @default(autoincrement())
+  customerNumber String?    @unique
   title          String?
   firstname      String?
   lastname       String?
   telephone      String?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @default(now()) @updatedAt
-  addressId      Int      @unique
-  Address        Address  @relation(fields: [addressId], references: [id])
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @default(now()) @updatedAt
+  addressId      Int        @unique
+  Address        Address    @relation(fields: [addressId], references: [id])
+  Contract       Contract[]
 }
 
 model User {

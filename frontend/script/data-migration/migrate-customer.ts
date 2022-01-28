@@ -30,7 +30,7 @@ async function main() {
   // res.rows.forEach(async (c) => {
   for (const c of res.rows) {
     const prismaCustomer: Prisma.CustomerCreateInput = {
-      customerID: c.customercode,
+      customerNumber: c.customercode,
       title: c.prefix,
       firstname: c.arname,
       lastname: c.lname,
