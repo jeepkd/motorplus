@@ -34,6 +34,7 @@ model Bike {
   updatedAt     DateTime  @default(now()) @updatedAt
   BikeModel     BikeModel @relation(fields: [bikeModelId], references: [id])
   BikeColor     BikeColor @relation(fields: [bikeColorId], references: [id])
+  // Contract      Contract[]
 }
 
 model BikeBrand {
@@ -62,17 +63,28 @@ model BikeModel {
   BikeBrand   BikeBrand @relation(fields: [bikeBrandId], references: [id])
 }
 
+// model Contract {
+//   id             Int      @id @default(autoincrement())
+//   contractNumber String?  @unique
+//   Bike           Bike     @relation(fields: [bikeId], references: [id])
+//   Customer       Customer @relation(fields: [customerId], references: [customerID])
+//   createdAt      DateTime @default(now())
+//   updatedAt      DateTime @default(now()) @updatedAt
+//   bikeId         Int
+//   customerId     Int
+// }
+
 model Customer {
-  id         Int      @id @default(autoincrement())
-  customerID String?  @unique
-  title      String?
-  firstname  String?
-  lastname   String?
-  telephone  String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @default(now()) @updatedAt
-  addressId  Int      @unique
-  Address    Address  @relation(fields: [addressId], references: [id])
+  id             Int      @id @default(autoincrement())
+  customerNumber String?  @unique
+  title          String?
+  firstname      String?
+  lastname       String?
+  telephone      String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now()) @updatedAt
+  addressId      Int      @unique
+  Address        Address  @relation(fields: [addressId], references: [id])
 }
 
 model User {

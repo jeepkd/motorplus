@@ -31,7 +31,7 @@ export const getServerSideProps = async () => {
   const customers = await prisma.customer.findMany({
     select: {
       id: true,
-      customerID: true,
+      customerNumber: true,
       title: true,
       firstname: true,
       lastname: true,
@@ -48,7 +48,7 @@ export default UserPage
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 50 },
-  { field: "customerID", headerName: "รหัสลูกค้า", width: 130 },
+  { field: "customerNumber", headerName: "รหัสลูกค้า", width: 130 },
   { field: "title", headerName: "นำหน้า", width: 60 },
   { field: "firstname", headerName: "ชื่อ", width: 150 },
   { field: "lastname", headerName: "สกุล", width: 150 },
