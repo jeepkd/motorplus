@@ -1,19 +1,19 @@
 import { Box, Paper } from "@mui/material"
 import { DataGrid, GridColDef } from "@mui/x-data-grid"
-import { User } from "@prisma/client"
+import { Customer, User } from "@prisma/client"
 
 import Layout from "../components/layout"
 import prisma from "../lib/prisma"
 import { Page } from "../types/page"
 
 interface Props {
-  users: User[]
+  customers: Customer[]
 }
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 100 },
-  { field: "username", headerName: "username", width: 130 },
-  { field: "email", headerName: "email", width: 200 },
+  { field: "customerID", headerName: "รหัสลูกค้า", width: 130 },
+  { field: "name", headerName: "ชื่อ", width: 200 },
   {
     field: "address",
     headerName: "ที่อยู่",
@@ -25,11 +25,11 @@ const columns: GridColDef[] = [
   },
 ]
 
-const UserPage: Page<Props> = ({ users }) => {
+const UserPage: Page<Props> = ({ customers }) => {
   return (
     <Paper sx={{ height: 650 }}>
       <DataGrid
-        rows={users}
+        rows={customers}
         columns={columns}
         pageSize={10}
         // rowsPerPageOptions={[2]}
@@ -43,16 +43,16 @@ UserPage.getLayout = (page) => {
 }
 
 export const getServerSideProps = async () => {
-  const users = await prisma.user.findMany({
+  const customers = await prisma.customer.findMany({
     select: {
       id: true,
-      username: true,
-      email: true,
+      customerID: true,
+      name: true,
       Address: true,
     },
   })
   return {
-    props: { users },
+    props: { customers },
   }
 }
 

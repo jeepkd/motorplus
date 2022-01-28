@@ -2,8 +2,6 @@ import * as argon2 from "argon2"
 
 import { PrismaClient } from "@prisma/client"
 
-// const argon2 = require("argon2")
-
 const prisma = new PrismaClient()
 
 async function main() {
@@ -38,6 +36,23 @@ async function main() {
         create: {
           name: "AFS110MSFC",
           BikeBrand: { create: { name: "HONDA" } },
+        },
+      },
+    },
+  })
+  console.log({ bikes })
+
+  const customer = await prisma.customer.create({
+    data: {
+      customerID: "2419900031361",
+      name: "ณัฐวุฒิ คิดดี",
+      Address: {
+        create: {
+          address: "347 หมู่ 6",
+          subdistrict: "ท่าบ่อ",
+          district: "ท่าบ่อ",
+          province: "หนองคาย",
+          zipcode: "43110",
         },
       },
     },

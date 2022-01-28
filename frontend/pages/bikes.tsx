@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/router"
 
-import { Box } from "@mui/material"
+import { Box, Paper } from "@mui/material"
 import { DataGrid, GridColDef } from "@mui/x-data-grid"
 import { Bike } from "@prisma/client"
 
@@ -43,7 +43,8 @@ const columns: GridColDef[] = [
 const BikePage: Page<Props> = ({ bikes }) => {
   const { data: session } = useSession({ required: true })
   return (
-    <Box height="720px">
+    // <Box height="720px">
+    <Paper sx={{ height: 600 }}>
       <DataGrid
         rows={bikes}
         columns={columns}
@@ -51,7 +52,8 @@ const BikePage: Page<Props> = ({ bikes }) => {
         // rowsPerPageOptions={[2]}
         checkboxSelection
       />
-    </Box>
+    </Paper>
+    // </Box>
   )
 }
 

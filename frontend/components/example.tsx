@@ -1,11 +1,8 @@
-import { NextPage } from "next"
-import { signIn, signOut, useSession } from "next-auth/react"
 import * as React from "react"
 
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
 import MenuIcon from "@mui/icons-material/Menu"
 import NotificationsIcon from "@mui/icons-material/Notifications"
-import { Button } from "@mui/material"
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar"
 import Badge from "@mui/material/Badge"
 import Box from "@mui/material/Box"
@@ -22,6 +19,9 @@ import Toolbar from "@mui/material/Toolbar"
 import Typography from "@mui/material/Typography"
 import { ThemeProvider, createTheme, styled } from "@mui/material/styles"
 
+import Chart from "./Chart"
+import Deposits from "./Deposits"
+import Orders from "./Orders"
 import { mainListItems, secondaryListItems } from "./listItems"
 
 function Copyright(props: any) {
@@ -33,8 +33,8 @@ function Copyright(props: any) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="/">
-        Motorplus
+      <Link color="inherit" href="https://mui.com/">
+        Your Website
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -65,7 +65,6 @@ const AppBar = styled(MuiAppBar, {
     }),
   }),
 }))
-// const AppBar = MuiAppBar
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -95,9 +94,8 @@ const Drawer = styled(MuiDrawer, {
 
 const mdTheme = createTheme()
 
-const Layout: NextPage = ({ children }) => {
+function DashboardContent() {
   const [open, setOpen] = React.useState(true)
-  const { data: session } = useSession({ required: true })
   const toggleDrawer = () => {
     setOpen(!open)
   }
@@ -133,27 +131,11 @@ const Layout: NextPage = ({ children }) => {
             >
               Dashboard
             </Typography>
-            {session && (
-              <>
-                <IconButton color="inherit">
-                  <Badge badgeContent={4} color="secondary">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
-                <Button
-                  variant="contained"
-                  color="info"
-                  onClick={() => signOut()}
-                >
-                  ออกจากระบบ
-                </Button>
-              </>
-            )}
-            {!session && (
-              <Button variant="contained" color="info" onClick={() => signIn()}>
-                เข้าสู่ระบบ
-              </Button>
-            )}
+            <IconButton color="inherit">
+              <Badge badgeContent={4} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -188,7 +170,40 @@ const Layout: NextPage = ({ children }) => {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            {children}
+            <Grid container spacing={3}>
+              {/* Chart */}
+              <Grid item xs={12} md={8} lg={9}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    height: 240,
+                  }}
+                >
+                  <Chart />
+                </Paper>
+              </Grid>
+              {/* Recent Deposits */}
+              <Grid item xs={12} md={4} lg={3}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    height: 240,
+                  }}
+                >
+                  <Deposits />
+                </Paper>
+              </Grid>
+              {/* Recent Orders */}
+              <Grid item xs={12}>
+                <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                  <Orders />
+                </Paper>
+              </Grid>
+            </Grid>
             <Copyright sx={{ pt: 4 }} />
           </Container>
         </Box>
@@ -197,4 +212,6 @@ const Layout: NextPage = ({ children }) => {
   )
 }
 
-export default Layout
+export default function Dashboard() {
+  return <DashboardContent />
+}

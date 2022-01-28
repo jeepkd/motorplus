@@ -10,6 +10,8 @@ import { SessionProvider } from "next-auth/react"
 import { AppProps } from "next/app"
 import { ReactNode } from "react"
 
+import { CssBaseline } from "@mui/material"
+
 import { Page } from "../types/page"
 
 type Props = AppProps & {
@@ -24,6 +26,8 @@ export function MyApp({
 
   return (
     <SessionProvider session={session}>
+      <CssBaseline />
+
       {getLayout(<Component {...pageProps} />)}
     </SessionProvider>
   )
