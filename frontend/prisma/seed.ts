@@ -45,7 +45,7 @@ async function main() {
     data: {
       customerID: "2419900031361",
       title: "นาย",
-      firstname: "ณัฐวุฒิี",
+      firstname: "ณัฐวุฒิ",
       lastname: "คิดดี",
       telephone: "0894194120",
       Address: {

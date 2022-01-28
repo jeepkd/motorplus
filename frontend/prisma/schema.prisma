@@ -8,29 +8,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id           Int      @id @default(autoincrement())
-  email        String?  @unique
-  username     String   @unique
-  passwordHash String
-  createdAt    DateTime @default(now())
-  role         Role     @default(USER)
-  updatedAt    DateTime @default(now()) @updatedAt
-  addressId    Int      @unique
-  Address      Address  @relation(fields: [addressId], references: [id])
-}
-
-model Customer {
-  id         Int      @id @default(autoincrement())
-  customerID String?  @unique
-  title      String?
-  firstname  String?
-  lastname   String?
-  telephone  String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @default(now()) @updatedAt
-  addressId  Int      @unique
-  Address    Address  @relation(fields: [addressId], references: [id])
+enum Role {
+  USER
+  ADMIN
 }
 
 model Address {
@@ -64,6 +44,14 @@ model BikeBrand {
   BikeModel BikeModel[]
 }
 
+model BikeColor {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  bike      Bike[]
+}
+
 model BikeModel {
   id          Int       @id @default(autoincrement())
   name        String    @unique
@@ -74,15 +62,27 @@ model BikeModel {
   BikeBrand   BikeBrand @relation(fields: [bikeBrandId], references: [id])
 }
 
-model BikeColor {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  bike      Bike[]
+model Customer {
+  id         Int      @id @default(autoincrement())
+  customerID String?  @unique
+  title      String?
+  firstname  String?
+  lastname   String?
+  telephone  String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+  addressId  Int      @unique
+  Address    Address  @relation(fields: [addressId], references: [id])
 }
 
-enum Role {
-  USER
-  ADMIN
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String?  @unique
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  role         Role     @default(USER)
+  updatedAt    DateTime @default(now()) @updatedAt
+  addressId    Int      @unique
+  Address      Address  @relation(fields: [addressId], references: [id])
 }

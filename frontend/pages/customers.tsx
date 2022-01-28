@@ -10,21 +10,6 @@ interface Props {
   customers: Customer[]
 }
 
-const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 100 },
-  { field: "customerID", headerName: "รหัสลูกค้า", width: 130 },
-  { field: "name", headerName: "ชื่อ", width: 200 },
-  {
-    field: "address",
-    headerName: "ที่อยู่",
-    width: 600,
-    valueGetter: (params) => {
-      const a = params.row.Address
-      return `${a.address} ${a.subdistrict} ${a.district} ${a.province} ${a.zipcode}`
-    },
-  },
-]
-
 const UserPage: Page<Props> = ({ customers }) => {
   return (
     <Paper sx={{ height: 650 }}>
@@ -47,7 +32,10 @@ export const getServerSideProps = async () => {
     select: {
       id: true,
       customerID: true,
-      name: true,
+      title: true,
+      firstname: true,
+      lastname: true,
+      telephone: true,
       Address: true,
     },
   })
@@ -57,3 +45,42 @@ export const getServerSideProps = async () => {
 }
 
 export default UserPage
+
+const columns: GridColDef[] = [
+  { field: "id", headerName: "ID", width: 50 },
+  { field: "customerID", headerName: "รหัสลูกค้า", width: 130 },
+  { field: "title", headerName: "นำหน้า", width: 60 },
+  { field: "firstname", headerName: "ชื่อ", width: 150 },
+  { field: "lastname", headerName: "สกุล", width: 150 },
+  { field: "telephone", headerName: "โทร", width: 150 },
+  {
+    field: "address",
+    headerName: "ที่อยู่",
+    width: 150,
+    valueGetter: (p) => p.row.Address.address,
+  },
+  {
+    field: "subdistrict",
+    headerName: "ตำบล",
+    width: 150,
+    valueGetter: (p) => p.row.Address.subdistrict,
+  },
+  {
+    field: "district",
+    headerName: "อำเภอ",
+    width: 150,
+    valueGetter: (p) => p.row.Address.district,
+  },
+  {
+    field: "province",
+    headerName: "จังหวัด",
+    width: 150,
+    valueGetter: (p) => p.row.Address.province,
+  },
+  {
+    field: "zipcode",
+    headerName: "รหัส ปณ",
+    width: 150,
+    valueGetter: (p) => p.row.Address.zipcode,
+  },
+]

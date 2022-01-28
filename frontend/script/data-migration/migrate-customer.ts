@@ -27,26 +27,26 @@ const constructAddress = (c: any) => {
 async function main() {
   await client.connect()
   const res = await client.query(query)
-  res.rows.forEach(async (c) => {
-    // res.rows.slice(0, 100).forEach(async (c) => {
+  // res.rows.forEach(async (c) => {
+  for (const c of res.rows) {
     const prismaCustomer: Prisma.CustomerCreateInput = {
       customerID: c.customercode,
-      title: c.prefix || null,
-      firstname: c.arname || null,
-      lastname: c.lname || null,
-      telephone: c.phoneno || null,
+      title: c.prefix,
+      firstname: c.arname,
+      lastname: c.lname,
+      telephone: c.phoneno,
       Address: {
         create: {
-          address: constructAddress(c) || null,
-          subdistrict: c.tambol || null,
-          district: c.amphon || null,
-          province: c.province || null,
-          zipcode: c.postcode || null,
+          address: constructAddress(c),
+          subdistrict: c.tambol,
+          district: c.amphon,
+          province: c.province,
+          zipcode: c.postcode,
         },
       },
     }
     console.log(await prisma.customer.create({ data: prismaCustomer }))
-  })
+  }
   await client.end()
 }
 main()
