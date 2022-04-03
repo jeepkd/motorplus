@@ -13,6 +13,7 @@ interface Props {
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 100 },
   { field: "username", headerName: "username", width: 130 },
+  { field: "role", headerName: "role", width: 130 },
   { field: "email", headerName: "email", width: 200 },
   {
     field: "address",
@@ -47,6 +48,7 @@ export const getServerSideProps = async () => {
     select: {
       id: true,
       username: true,
+      role: true,
       email: true,
       Address: true,
     },

@@ -1,3 +1,5 @@
+import { count } from "console"
+
 import { Client } from "pg"
 import { Exception } from "sass"
 
@@ -12,6 +14,7 @@ export async function migrateContractsAndVehicles() {
   await migrateBrand(pgclient)
   await migrateModel(pgclient)
   await migrateVehicle(pgclient)
+  await migrateContract(pgclient)
 
   await pgclient.end()
 }
@@ -121,6 +124,46 @@ async function migrateVehicle(pgclient: Client) {
       throw err
     }
   }
+}
+async function migrateContract(pgclient: Client) {
+  var cnt = 0
+  const res = await pgclient.query(
+    `SELECT*FROM tblhpcontract WHERE contractno<>'' AND customercode in(SELECT customercode FROM tblcustomer)and chassisno in(select chassisno from tbldtlstock); `
+  )
+
+  for (const c of res.rows) {
+    const entity: Prisma.ContractCreateInput = {
+      contractNumber: c.contractno,
+      Customer: {
+        connect: {
+          customerNumber: c.customercode,
+        },
+      },
+      Vehicle: {
+        connect: {
+          chassisNumber: c.chassisno,
+        },
+      },
+    }
+    console.log(entity)
+    try {
+      const dbEntity = await prisma.contract.upsert({
+        where: { contractNumber: c.contractno },
+        create: entity,
+        update: entity,
+      })
+      console.log(dbEntity)
+    } catch (err: any) {
+      // if (err?.code == "P2002") continue
+      if (err?.code == "P2025") {
+        cnt += 1
+        continue
+      }
+
+      throw err
+    }
+  }
+  console.log(cnt)
 }
 
 migrateContractsAndVehicles()
